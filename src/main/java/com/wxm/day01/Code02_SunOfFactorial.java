@@ -1,10 +1,10 @@
-package com.wxm.bitoperation;
+package com.wxm.day01;
 
 /**
  * @author: wxm
  * @created: 2022/02/08
  */
-public class SumOfFactorial {
+public class Code02_SunOfFactorial {
 
     /**
      *  给定一个参数N，求 1! + 2！+ 3！+...+ N! 的值

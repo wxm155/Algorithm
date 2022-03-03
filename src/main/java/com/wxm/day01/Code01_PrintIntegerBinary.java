@@ -1,11 +1,11 @@
-package com.wxm.bitoperation;
+package com.wxm.day01;
 
 /**
  * 打印整数的二进制
  * @author: wxm
  * @created: 2022/02/08
  */
-public class PrintIntegerBinary {
+public class Code01_PrintIntegerBinary {
 
     public static void main(String[] args){
 //        int num = 60;
@@ -31,7 +31,7 @@ public class PrintIntegerBinary {
      *  ~ 取反  00000000 00000000 00000000 10000000 取反为  11111111 11111111 11111111 01111111
      *  & 与  都为1则为1，其余则为0
      *  | 或  有1则为1
-     *  ^ 异或  相同为0，不同为1
+     *  ^ 异或  相同为0，不同为1  0^N = N; N^N = 0;
      *  >> 右移 左边用符号位来补
      *  >>> 右移  左边不用符号位来补，用0来补
      *  1 << 8  ==> 00000000 00000000 00000000 10000000   计算为2的8次方

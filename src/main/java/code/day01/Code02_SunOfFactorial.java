@@ -1,4 +1,4 @@
-package com.wxm.day01;
+package code.day01;
 
 /**
  * @author: wxm

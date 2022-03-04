@@ -1,4 +1,4 @@
-package com.wxm.day02;
+package code.day02;
 
 import java.util.Arrays;
 

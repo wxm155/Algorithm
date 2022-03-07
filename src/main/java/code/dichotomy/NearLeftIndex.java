@@ -1,16 +1,14 @@
-package code.day02;
+package code.dichotomy;
 
 import java.util.Arrays;
 
 /**
+ * 给定一个有序数组，找出 >= N 的左位置，二分法
  * @author: wxm
  * @created: 2022/03/04
  */
-public class Code03_NearLeftIndex {
+public class NearLeftIndex {
 
-    /**
-     * 给定一个有序数组，找出 >= N 的左位置，二分法
-     */
     public static int nearLeft(int[] arr, int num) {
         if (arr == null || arr.length == 0) {
             return -1;

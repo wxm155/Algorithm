@@ -1,47 +1,59 @@
-package code.day02;
+package code.sort;
 
 import java.util.Arrays;
 
 /**
+ * 插入排序
  * @author: wxm
- * @created: 2022/03/04
+ * @created: 2022/03/03
  */
-public class Code01_BubbleSort {
+public class InsertSort {
 
     /**
-     * 冒泡排序
-     *
+     * 插入排序写法一
      * @param arr
      */
-    public static void bubbleSort(int[] arr) {
+    public static void insertSort1(int[] arr) {
         if (arr == null || arr.length < 2) {
             return;
         }
-        for (int i = 0; i < arr.length; i++) {
-            boolean flag = false;
-            for (int j = 0; j < arr.length - 1 - i; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    flag = true;
-                    swap(arr, j, j + 1);
-                }
-            }
-            // 一次排序过程中一次都没有发生交换，结束排序
-            if (!flag) {
-                break;
-            } else {
-                flag = false;
+        for (int i = 1; i < arr.length; i++) {
+            int index = i - 1;
+            while (index >= 0 && arr[index] > arr[index + 1]) {
+                swap(arr, index, index + 1);
+                index--;
             }
         }
     }
 
+    /**
+     * 插入排序写法二
+     * @param arr
+     */
+    public static void insertSort2(int[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            for (int j = i - 1; j >= 0 && arr[j] > arr[j + 1]; j--) {
+                swap(arr, j, j + 1);
+            }
+        }
+    }
+
+    /**
+     * 交换
+     *
+     * @param arr
+     * @param i
+     * @param j
+     */
     public static void swap(int[] arr, int i, int j) {
-        arr[i] = arr[i] ^ arr[j];
-        arr[j] = arr[i] ^ arr[j];
-        arr[i] = arr[i] ^ arr[j];
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
 
     /**
      * 生成随机数组
+     * Math.random() ===> [0,1)
      *
      * @param maxSize
      * @param maxValue
@@ -98,15 +110,16 @@ public class Code01_BubbleSort {
         return res;
     }
 
+
     public static void main(String[] args) {
         for (int i = 0; i < 500000; i++) {
-            int[] ints = generateRandomArray(20, 50);
-            int[] copyArray = copyArray(ints);
-            bubbleSort(ints);
-            Arrays.sort(copyArray);
-            boolean success = isEqual(ints, copyArray);
+            int[] arr = generateRandomArray(20, 50);
+            int[] ints = copyArray(arr);
+            Arrays.sort(ints);
+            insertSort1(arr);
+            boolean success = isEqual(ints, arr);
             if (!success) {
-                System.out.println("fuck.....");
+                System.out.println("fuck....");
             }
         }
     }

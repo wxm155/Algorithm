@@ -1,12 +1,13 @@
-package code.day02;
+package code.sort;
 
 import java.util.Arrays;
 
 /**
+ * 选择排序
  * @author: wxm
  * @created: 2022/03/04
  */
-public class Code02_SelectSort {
+public class SelectSort {
 
     /**
      * 选择排序

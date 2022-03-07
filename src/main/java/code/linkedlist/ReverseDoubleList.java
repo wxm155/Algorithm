@@ -1,13 +1,14 @@
-package code.day03;
+package code.linkedlist;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 双向链表反转
  * @author wxm
  * @created 2022/3/5
  */
-public class Code01_ReverseDoubleList {
+public class ReverseDoubleList {
 
     /** 双向链表 */
     public static class DoubleNode {

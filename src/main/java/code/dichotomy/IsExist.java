@@ -1,14 +1,11 @@
-package code.day01;
+package code.dichotomy;
 
 /**
+ * 给定一个有序数组和一个数，判断数组中是否存在该数
  * @author: wxm
  * @created: 2022/03/03
  */
-public class Code03_IsExist {
-
-    /**
-     * 给定一个有序数组和一个数，判断数组中是否存在该数
-     */
+public class IsExist {
 
     /**
      * 二分法

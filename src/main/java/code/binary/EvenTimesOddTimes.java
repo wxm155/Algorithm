@@ -1,10 +1,10 @@
-package code.day02;
+package code.binary;
 
 /**
  * @author: wxm
  * @created: 2022/03/04
  */
-public class Code05_EvenTimesOddTimes {
+public class EvenTimesOddTimes {
 
     /**
      * 给定一个数组，只有一种数出现了奇数次，打印这个数

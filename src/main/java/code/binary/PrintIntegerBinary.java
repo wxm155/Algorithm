@@ -1,11 +1,11 @@
-package code.day01;
+package code.binary;
 
 /**
  * 打印整数的二进制
  * @author: wxm
  * @created: 2022/02/08
  */
-public class Code01_PrintIntegerBinary {
+public class PrintIntegerBinary {
 
     public static void main(String[] args){
 //        int num = 60;

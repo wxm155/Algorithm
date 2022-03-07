@@ -1,10 +1,10 @@
-package code.day01;
+package code.binary;
 
 /**
  * @author: wxm
  * @created: 2022/02/08
  */
-public class Code02_SunOfFactorial {
+public class SunOfFactorial {
 
     /**
      *  给定一个参数N，求 1! + 2！+ 3！+...+ N! 的值

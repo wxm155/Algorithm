@@ -1,10 +1,10 @@
-package code.day02;
+package code.dichotomy;
 
 /**
  * @author: wxm
  * @created: 2022/03/04
  */
-public class Code04_LessIndex {
+public class LessIndex {
 
     /**
      * 给定一个无序数组，任意两个相邻的数不相等，查找局部最小值

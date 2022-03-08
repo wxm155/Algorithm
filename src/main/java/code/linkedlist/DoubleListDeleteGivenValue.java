@@ -35,7 +35,7 @@ public class DoubleListDeleteGivenValue {
                 break;
             }
             head = head.next;
-            if (head != null){
+            if (head != null) {
                 head.last = null;
             }
         }
@@ -48,7 +48,7 @@ public class DoubleListDeleteGivenValue {
                 pre.next = current;
                 // 删除最后一个节点
                 // 30 22 5 -1 15 ,15
-                if (current != null){
+                if (current != null) {
                     current.last = pre;
                 }
             } else {
@@ -125,7 +125,7 @@ public class DoubleListDeleteGivenValue {
             int maxSize = 20;
             int maxValue = 20;
             DoubleNode doubleNode = generateDoubleList(maxSize, maxValue);
-            int deleteValue = (int)(Math.random() * (maxValue + 1));
+            int deleteValue = (int) (Math.random() * (maxValue + 1));
             DoubleNode resultNode = deleteValue(doubleNode, deleteValue);
             List<Integer> ascList = new ArrayList<>();
             DoubleNode ascNode = resultNode;
@@ -133,7 +133,7 @@ public class DoubleListDeleteGivenValue {
                 ascList.add(ascNode.value);
                 ascNode = ascNode.next;
             }
-            if (ascList.contains(deleteValue)){
+            if (ascList.contains(deleteValue)) {
                 System.out.println("fuck....");
             }
         }

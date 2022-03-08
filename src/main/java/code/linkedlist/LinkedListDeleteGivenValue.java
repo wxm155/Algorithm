@@ -58,11 +58,11 @@ public class LinkedListDeleteGivenValue {
     public static Node generateLinkedList(int maxSize, int maxValue) {
         int size = 0;
         size++;
-        int randomMaxSize = (int)(Math.random() * (maxSize + 1));
+        int randomMaxSize = (int) (Math.random() * (maxSize + 1));
         Node head = new Node((int) (Math.random() * (maxValue + 1)));
         Node current = head;
         while (size <= randomMaxSize) {
-            int value = (int) ((Math.random() - Math.random())* (maxValue + 1));
+            int value = (int) ((Math.random() - Math.random()) * (maxValue + 1));
             current.next = new Node(value);
             current = current.next;
             size++;
@@ -78,7 +78,7 @@ public class LinkedListDeleteGivenValue {
             Node node = generateLinkedList(maxSize, maxValue);
             List<Integer> list = new ArrayList<>();
 
-            int deleteValue = (int) ((Math.random() - Math.random())* (maxValue + 1));
+            int deleteValue = (int) ((Math.random() - Math.random()) * (maxValue + 1));
             Node result = deleteValue(node, deleteValue);
             while (result != null) {
                 list.add(result.value);

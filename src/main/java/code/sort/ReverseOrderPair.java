@@ -39,6 +39,7 @@ public class ReverseOrderPair {
 
     /**
      * 正解
+     *
      * @param arr
      * @param left
      * @param mid
@@ -71,6 +72,7 @@ public class ReverseOrderPair {
     /**
      * -16 21 -33 -3
      * 只能逆序，正序结果可能会小于正确结果
+     *
      * @param arr
      * @param left
      * @param mid

@@ -44,7 +44,7 @@ public class BiggerThanRightTwice {
         int tempIndex = mid + 1;
         for (int i = left; i <= mid; i++) {
             // 防止int * 2越界
-            while (tempIndex <= right && (long)arr[i] > (((long)arr[tempIndex]) * 2)) {
+            while (tempIndex <= right && (long)arr[i] > (((long)arr[tempIndex]) << 1)) {
                 tempIndex++;
             }
             result += tempIndex - mid - 1;

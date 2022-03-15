@@ -1,4 +1,4 @@
-package code.sort;
+package code.array;
 
 /**
  * @author: wxm

@@ -25,6 +25,12 @@ public class FindMedianSortedArrays {
      * 思路: 对于有序数组的合并，借鉴归并排序的做法
      */
 
+    /**
+     * 解法一：合并数组，时间复杂度为O(m + n),额外空间复杂度为O(m + n)
+     * @param nums1
+     * @param nums2
+     * @return
+     */
     public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
 
         int[] temp = new int[nums1.length + nums2.length];
@@ -43,13 +49,10 @@ public class FindMedianSortedArrays {
             temp[index++] = nums2[p2++];
         }
 
-        double result = (temp.length % 2) == 0
+        double result = (temp.length & 1) == 0
                 ? (((double) temp[(temp.length - 1) >> 1] + (double) temp[((temp.length - 1) >> 1) + 1]) / 2)
                 : temp[(temp.length - 1) >> 1];
-
         return result;
-
-
     }
 
     public static void main(String[] args) {

@@ -17,7 +17,7 @@ public class HeapSort {
      */
 
     /**
-     * 堆排序
+     * 堆排序,大根堆
      *
      * @param arr
      */
@@ -25,8 +25,13 @@ public class HeapSort {
         if (arr == null || arr.length < 2) {
             return;
         }
-        for (int i = 0; i < arr.length; i++) {
-            heapInsert(arr, i);
+        // 从上往下建堆 O(N*logN)
+//        for (int i = 0; i < arr.length; i++) {
+//            heapInsert(arr, i);
+//        }
+        // 从下往上建堆 O(N)
+        for (int i = arr.length - 1;i >= 0;i--){
+            heapify(arr,i,arr.length);
         }
         int heapSize = arr.length;
         swap(arr, 0, --heapSize);

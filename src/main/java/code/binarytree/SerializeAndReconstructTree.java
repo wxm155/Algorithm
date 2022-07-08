@@ -2,6 +2,7 @@ package code.binarytree;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
  * @author: wxm
@@ -109,18 +110,97 @@ public class SerializeAndReconstructTree {
         if (queue == null || queue.size() == 0){
             return null;
         }
-        return postDes(queue);
+        Stack<Integer> stack = new Stack<>();
+        while (!queue.isEmpty()){
+            stack.push(queue.poll());
+        }
+        return postDes(stack);
     }
 
-    public static Node postDes(Queue<Integer> queue){
-        Integer poll = queue.poll();
-        if (poll == null){
+    // 左右中 -> 中右左
+    public static Node postDes(Stack<Integer> stack){
+        Integer pop = stack.pop();
+        if (pop == null){
             return null;
         }
-        Node head = new Node(poll);
-        head.left = postDes(queue);
-        head.right = postDes(queue);
+        Node head = new Node(pop);
+        head.right = postDes(stack);
+        head.left = postDes(stack);
         return head;
     }
+
+    /**
+     * 按层遍历序列化
+     * @param head
+     * @return
+     */
+    public static Queue<Integer> levelSerialize(Node head) {
+        Queue<Integer> ans = new LinkedList<>();
+        if (head == null) {
+            ans.offer(null);
+        } else {
+            Queue<Node> levelQueue = new LinkedList<>();
+            levelQueue.offer(head);
+            while (!levelQueue.isEmpty()) {
+                Node poll = levelQueue.poll();
+                ans.offer(poll.value);
+                if (poll.left != null) {
+                    levelQueue.offer(poll.left);
+                    ans.offer(poll.left.value);
+                } else {
+                    ans.offer(null);
+                }
+                if (poll.right != null) {
+                    levelQueue.offer(poll.right);
+                    ans.offer(poll.right.value);
+                } else {
+                    ans.offer(null);
+                }
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 按层遍历反序列化
+     * @param queue
+     * @return
+     */
+    public static Node levelDeserialize(Queue<Integer> queue){
+        if (queue == null || queue.size() == 0){
+            return null;
+        }
+        Node head = generateNode(queue.poll());
+        if (head == null){
+            return null;
+        }
+        Queue<Node> levelQueue = new LinkedList<>();
+        levelQueue.offer(head);
+        while (!levelQueue.isEmpty()){
+            Node node = levelQueue.poll();
+            node.left = generateNode(queue.poll());
+            node.right = generateNode(queue.poll());
+            if (node.left != null){
+                levelQueue.offer(node.left);
+            }
+            if (node.right != null){
+                levelQueue.offer(node.right);
+            }
+        }
+        return head;
+    }
+
+    /**
+     * 生成节点
+     * @param value
+     * @return
+     */
+    public static Node generateNode(Integer value){
+        if (value == null){
+            return null;
+        }
+        return new Node(value);
+    }
+
 
 }

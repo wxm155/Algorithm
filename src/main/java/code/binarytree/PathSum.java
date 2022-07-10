@@ -67,7 +67,7 @@ public class PathSum {
         process(root.right,sum,targetSum);
         // 切换分支删除另一分支的值
         list.remove(list.size() - 1);
-        // 没必要
+        // 没必要，切换分支时sum为原始值
         //sum -= root.val;
     }
 }

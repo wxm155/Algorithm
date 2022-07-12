@@ -65,4 +65,27 @@ public class LevelOrderBottom {
         return res;
     }
 
+    /**
+     * 解法二
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrderBottom2(TreeNode root) {
+        List<List<Integer>> res = new LinkedList<>();
+        process(root, 0, res);
+        return res;
+    }
+
+    public void process(TreeNode root, int depth, List<List<Integer>> list) {
+        if (root == null) {
+            return;
+        }
+        if (depth == list.size()) {
+            list.add(0, new ArrayList<>());
+        }
+        list.get(list.size() - depth - 1).add(root.val);
+        process(root.left, depth + 1, list);
+        process(root.right, depth + 1, list);
+    }
+
 }

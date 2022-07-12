@@ -80,9 +80,11 @@ public class LevelOrderBottom {
         if (root == null) {
             return;
         }
+        // 每层添加一个list
         if (depth == list.size()) {
             list.add(0, new ArrayList<>());
         }
+        // 添加到对应层的list
         list.get(list.size() - depth - 1).add(root.val);
         process(root.left, depth + 1, list);
         process(root.right, depth + 1, list);

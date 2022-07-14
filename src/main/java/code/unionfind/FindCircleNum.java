@@ -62,6 +62,7 @@ public class FindCircleNum {
                 help[temp++] = num;
                 num = parent[num];
             }
+            // 路径压缩
             for (int i = 0; i < temp; i++) {
                 parent[help[i]] = num;
             }

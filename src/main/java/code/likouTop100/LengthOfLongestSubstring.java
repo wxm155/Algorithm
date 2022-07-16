@@ -42,11 +42,12 @@ public class LengthOfLongestSubstring {
             return 0;
         }
         int res = 0;
-        int left = 0; // abcabcbb
+        int left = 0;
         char[] chars = s.toCharArray();
         Map<Character,Integer> tempMap = new HashMap<>();
         for (int i = 0; i < chars.length; i++) {
             if (tempMap.containsKey(chars[i])){
+                // +1将left右移一位
                 left = Math.max(left,tempMap.get(chars[i]) + 1);
             }
             res = Math.max(res,i - left + 1);

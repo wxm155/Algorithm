@@ -14,7 +14,6 @@ public class BFS {
     /**
      * 图的宽度优先遍历
      */
-
     public void bfs(Graph.Node node){
         Set<Graph.Node> set = new HashSet<>();
         Queue<Graph.Node> queue = new LinkedList<>();

@@ -46,6 +46,7 @@ public class TopSort {
                 queue.add(node);
             }
         }
+        // 每次从没有指向自己节点开始取
         ArrayList<DirectedGraphNode> res = new ArrayList<>();
         while(!queue.isEmpty()){
             DirectedGraphNode node = queue.poll();

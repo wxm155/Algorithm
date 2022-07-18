@@ -1,5 +1,6 @@
 package code.graph;
 
+import java.awt.image.DirectColorModel;
 import java.util.*;
 
 /**
@@ -59,5 +60,65 @@ public class TopSort {
             }
         }
         return res;
+    }
+
+    /**
+     * 深度优先遍历解法一：节点深度越大，对应拓扑序越靠前
+     * @param graph
+     * @return
+     */
+    public static ArrayList<DirectedGraphNode> dfs(ArrayList<DirectedGraphNode> graph){
+        Map<DirectedGraphNode,Record> map = new HashMap<>();
+        for (DirectedGraphNode node : graph) {
+            process(node,map);
+        }
+        ArrayList<Record> tempList = new ArrayList<>(graph.size());
+        for (Record record : map.values()) {
+            tempList.add(record);
+        }
+        Collections.sort(tempList,new RecordComparator());
+
+        ArrayList<DirectedGraphNode> res = new ArrayList<>(graph.size());
+        for (Record record : tempList) {
+            res.add(record.cur);
+        }
+        return res;
+    }
+
+    public static class RecordComparator implements Comparator<Record>{
+        @Override
+        public int compare(Record o1, Record o2) {
+            return o2.deep - o1.deep;
+        }
+    }
+
+    public static Record process(DirectedGraphNode cur,Map<DirectedGraphNode,Record> map){
+        if (map.containsKey(cur)){
+            return map.get(cur);
+        }
+        int deep = 0;
+        for (DirectedGraphNode next : cur.neighbors) {
+            deep = Math.max(deep,process(next,map).deep);
+        }
+        // 深度加上当前节点
+        Record record = new Record(cur, deep + 1);
+        map.put(cur,record);
+        return record;
+    }
+
+
+    /**
+     * 辅助类：记录当前节点对应的深度
+     */
+    public static class Record{
+        // 当前节点
+        public DirectedGraphNode cur;
+        // 深度
+        public int deep;
+
+        public Record(DirectedGraphNode cur,int deep){
+            this.cur = cur;
+            this.deep = deep;
+        }
     }
 }

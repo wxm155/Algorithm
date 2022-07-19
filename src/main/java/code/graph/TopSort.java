@@ -1,6 +1,5 @@
 package code.graph;
 
-import java.awt.image.DirectColorModel;
 import java.util.*;
 
 /**
@@ -119,6 +118,60 @@ public class TopSort {
         public Record(DirectedGraphNode cur,int deep){
             this.cur = cur;
             this.deep = deep;
+        }
+    }
+
+    /**
+     * 深度优先遍历解法二：记录节点数量，与深度类似
+     * @param graph
+     * @return
+     */
+    public static ArrayList<DirectedGraphNode> dfs2(ArrayList<DirectedGraphNode> graph){
+        Map<DirectedGraphNode, Record2> map = new HashMap<>();
+        for (DirectedGraphNode node : graph) {
+            process2(node, map);
+        }
+        ArrayList<Record2> tempList = new ArrayList<>(graph.size());
+        for (Record2 record2 : map.values()) {
+            tempList.add(record2);
+        }
+        Collections.sort(tempList, new Record2Comparator());
+
+        ArrayList<DirectedGraphNode> res = new ArrayList<>(graph.size());
+        for (Record2 record2 : tempList) {
+            res.add(record2.cur);
+        }
+        return res;
+
+    }
+
+    public static Record2 process2(DirectedGraphNode cur, Map<DirectedGraphNode, Record2> map) {
+        if (map.containsKey(cur)) {
+            return map.get(cur);
+        }  
+        long nodes = 0;
+        for (DirectedGraphNode next : cur.neighbors) {
+            nodes += process2(next, map).nodes;
+        }
+        Record2 record2 = new Record2(cur, nodes + 1);
+        map.put(cur, record2);
+        return record2;
+    }
+
+    public static class Record2Comparator implements Comparator<Record2> {
+        @Override
+        public int compare(Record2 o1, Record2 o2) {
+            return o1.nodes == o2.nodes ? 0 : (o1.nodes > o2.nodes ? -1 : 1);
+        }
+    }
+
+    public static class Record2 {
+        public DirectedGraphNode cur;
+        public long nodes;
+
+        public Record2(DirectedGraphNode cur, long nodes) {
+            this.cur = cur;
+            this.nodes = nodes;
         }
     }
 }

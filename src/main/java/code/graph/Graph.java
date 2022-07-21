@@ -1,5 +1,7 @@
 package code.graph;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -7,6 +9,14 @@ import java.util.List;
  * @created 2022/7/17
  */
 public class Graph {
+
+    public HashMap<Integer, Node> nodes;
+    public HashSet<Edge> edges;
+
+    public Graph() {
+        nodes = new HashMap<>();
+        edges = new HashSet<>();
+    }
 
     // 点的描述
     public static class Node{

@@ -9,7 +9,8 @@ import java.util.*;
 public class Kruskal {
 
     /**
-     * 图的最小生成树
+     * 图的最小生成树之kruskal算法
+     * 由边解锁点
      */
 
 

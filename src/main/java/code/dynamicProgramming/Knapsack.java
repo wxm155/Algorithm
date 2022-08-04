@@ -42,11 +42,30 @@ public class Knapsack {
         return Math.max(p1, p2);
     }
 
+    // 动态规划最终解法
+    public static int dp(int[] w, int[] v, int bag) {
+        int len = w.length;
+        int[][] dp = new int[len + 1][bag + 1];
+        for (int index = len - 1; index >= 0; index--) {
+            for (int rest = 0; rest <= bag; rest++) {
+                int p1 = dp[index + 1][rest];
+                int p2 = 0;
+                int next = rest - w[index] < 0 ? -1 : dp[index + 1][rest - w[index]];
+                if (next != -1) {
+                    p2 = v[index] + next;
+                }
+                dp[index][rest] = Math.max(p1, p2);
+            }
+        }
+        return dp[0][bag];
+    }
+
 
     public static void main(String[] args) {
         int[] weights = { 3, 2, 4, 7, 3, 1, 7 };
         int[] values = { 5, 6, 3, 19, 12, 4, 2 };
         int bag = 15;
         System.out.println(maxValue(weights, values, bag));
+        System.out.println(dp(weights, values, bag));
     }
 }

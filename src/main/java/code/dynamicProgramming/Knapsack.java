@@ -14,7 +14,7 @@ public class Knapsack {
      */
 
     public static int maxValue(int[] w, int[] v, int bag) {
-        if (w == null || v == null || w.length != v.length || bag < 0) {
+        if (w == null || v == null || w.length != v.length || bag < 0 || w.length == 0) {
             return 0;
         }
         return process(w, v, 0, bag);
@@ -44,6 +44,9 @@ public class Knapsack {
 
     // 动态规划最终解法
     public static int dp(int[] w, int[] v, int bag) {
+        if (w == null || v == null || w.length != v.length || bag < 0 || w.length == 0) {
+            return 0;
+        }
         int len = w.length;
         int[][] dp = new int[len + 1][bag + 1];
         for (int index = len - 1; index >= 0; index--) {

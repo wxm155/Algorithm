@@ -93,11 +93,12 @@ public class CoinsWaySameValueSamePapper {
                 int restCoins = rest - coins[index];
                 // 防止dp越界
                 if (restCoins >= 0) {
-                    dp[index][rest] += dp[index][rest - coins[index]];
+                    dp[index][rest] += dp[index][restCoins];
                 }
                 // 剩余钱数不能被剩余货币张数全部匹配完，此方案不满足条件，减去相应的值
-                if (rest - (coins[index] * (nums[index] + 1)) >= 0) {
-                    dp[index][rest] -= dp[index + 1][rest - (coins[index] * (nums[index] + 1))];
+                int matchNum = rest - (coins[index] * (nums[index] + 1));
+                if (matchNum >= 0) {
+                    dp[index][rest] -= dp[index + 1][matchNum];
                 }
             }
         }

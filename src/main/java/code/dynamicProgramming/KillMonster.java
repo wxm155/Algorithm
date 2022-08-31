@@ -13,6 +13,7 @@ public class KillMonster {
      * 求K次打击之后，英雄把怪兽砍死的概率
      */
 
+    // 暴力递归
     public static double kill(int N, int M, int K) {
         if (N < 1 || M < 1 || K < 1) {
             return 0;
@@ -39,6 +40,7 @@ public class KillMonster {
         return ways;
     }
 
+    // 动态规划解法一
     public static double dp1(int N, int M, int K) {
         if (N < 1 || M < 1 || K < 1) {
             return 0;
@@ -64,6 +66,30 @@ public class KillMonster {
         return (double) kill / (double) all;
     }
 
+    // 动态规划解法二，位置依赖优化
+    public static double dp2(int N, int M, int K) {
+        if (N < 1 || M < 1 || K < 1) {
+            return 0;
+        }
+        long[][] dp = new long[N + 1][K + 1];
+        dp[0][0] = 1;
+        for (int rest = 1; rest <= K; rest++) {
+            dp[0][rest] = (long) Math.pow(M + 1, rest);
+            for (int blood = 1; blood <= N; blood++) {
+                dp[blood][rest] = dp[blood - 1][rest] + dp[blood][rest - 1];
+                // 减去多加的
+                if (blood - 1 - M > 0) {
+                    dp[blood][rest] -= dp[blood - 1 - M][rest - 1];
+                } else {
+                    dp[blood][rest] -= (long) Math.pow(M + 1, rest - 1);
+                }
+            }
+        }
+        long kill = dp[N][K];
+        long all = (long) Math.pow(M + 1, K);
+        return (double) kill / (double) all;
+    }
+
     public static void main(String[] args) {
         int NMax = 10;
         int MMax = 10;
@@ -76,8 +102,8 @@ public class KillMonster {
             int K = (int) (Math.random() * KMax);
             double ans1 = kill(N, M, K);
             double ans2 = dp1(N, M, K);
-//            double ans3 = dp2(N, M, K);
-            if (ans1 != ans2 ) {
+            double ans3 = dp2(N, M, K);
+            if (ans1 != ans2 || ans1 != ans3) {
                 System.out.println("fuck...");
                 break;
             }

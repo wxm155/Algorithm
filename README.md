@@ -1,2 +1,2 @@
 # algorithm
-算法很美
+算法练习code

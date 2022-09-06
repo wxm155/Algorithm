@@ -37,7 +37,7 @@ public class AllLessNumSubArray {
         return res;
     }
 
-    // 滑动窗口优化解
+    // 滑动窗口优化解 以left为左边界，能滑动多少个满足条件的子窗口
     public static int subArray2(int[] arr, int num) {
         if (arr == null || arr.length == 0 || num < 0) {
             return 0;

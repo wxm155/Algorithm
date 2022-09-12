@@ -26,16 +26,16 @@ public class LargestRectangleInHistogram {
             while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]){
                 int height = stack.pop();
                 // 为空取-1方便计算
-                int wide = stack.isEmpty() ? -1 : stack.peek();
+                int startIndex = stack.isEmpty() ? -1 : stack.peek();
                 // 计算当前i的前一个数所形成的宽度
-                max =  Math.max(max,(i - 1 - wide) * heights[height]);
+                max =  Math.max(max,(i - 1 - startIndex) * heights[height]);
             }
             stack.push(i);
         }
         while (!stack.isEmpty()){
             int height = stack.pop();
-            int wide = stack.isEmpty() ? -1 : stack.peek();
-            max =  Math.max(max,(heights.length - 1 - wide) * heights[height]);
+            int startIndex = stack.isEmpty() ? -1 : stack.peek();
+            max =  Math.max(max,(heights.length - 1 - startIndex) * heights[height]);
         }
         return max;
     }
@@ -52,15 +52,15 @@ public class LargestRectangleInHistogram {
         for (int i = 0; i < len; i++) {
             while (point != -1 && heights[stack[point]] >= heights[i]) {
                 int height = stack[point--];
-                int wide = point == -1 ? -1 : stack[point];
-                max = Math.max(max, (i - 1 - wide) * heights[height]);
+                int startIndex = point == -1 ? -1 : stack[point];
+                max = Math.max(max, (i - 1 - startIndex) * heights[height]);
             }
             stack[++point] = i;
         }
         while (point != -1) {
             int height = stack[point--];
-            int wide = point == -1 ? -1 : stack[point];
-            max = Math.max(max, (heights.length - 1 - wide) * heights[height]);
+            int startIndex = point == -1 ? -1 : stack[point];
+            max = Math.max(max, (heights.length - 1 - startIndex) * heights[height]);
         }
         return max;
     }

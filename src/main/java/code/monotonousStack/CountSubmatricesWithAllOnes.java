@@ -1,7 +1,5 @@
 package code.monotonousStack;
 
-import java.util.Stack;
-
 /**
  * @author wxm
  * @created 2022/9/12
@@ -40,7 +38,7 @@ public class CountSubmatricesWithAllOnes {
         return res;
     }
 
-    // 比如
+    // 例：
     //              1
     //              1
     //              1         1
@@ -55,16 +53,15 @@ public class CountSubmatricesWithAllOnes {
     // 此时我们求什么？
     // 1) 求在3~8范围上，必须以高度6作为高的矩形，有几个？
     // 2) 求在3~8范围上，必须以高度5作为高的矩形，有几个？
-    // 也就是说，<=4的高度，一律不求
-    // 那么，1) 求必须以位置6的高度6作为高的矩形，有几个？
+    // 小于4的高度，一律不求，交由后续的4来求
+    // 求必须以位置6的高度6作为高的矩形，有几个？
     // 3..3  3..4  3..5  3..6  3..7  3..8
     // 4..4  4..5  4..6  4..7  4..8
     // 5..5  5..6  5..7  5..8
     // 6..6  6..7  6..8
     // 7..7  7..8
     // 8..8
-    // 这么多！= 21 = (9 - 2 - 1) * (9 - 2) / 2
-    // 这就是任何一个数字从栈里弹出的时候，计算矩形数量的方式
+    // 1+2+3....+n => (n * (n + 1)/2)
     public static int countFromBottom(int[] heights) {
         int res = 0;
         int len = heights.length;

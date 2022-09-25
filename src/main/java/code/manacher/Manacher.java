@@ -16,11 +16,30 @@ public class Manacher {
         }
         char[] strArr = manacherStr(str);
         int[] pArr = new int[strArr.length];
-        int c = -1, r = -1;
+        // R 向右扩，扩到最远的位置
+        // C 扩到R位置时的中心位置
+        int C = -1, R = -1;
         int max = Integer.MIN_VALUE;
         for (int i = 0; i < strArr.length; i++) {
-            // 2 * c - i 为i对称的位置
-            pArr[i] = r > i ? Math.min(pArr[2 * c - i], r - i) : 1;
+            // a b c d c k s t s k c d c b a
+            // L     i’      c       i     R
+            // 存在两种情况：
+            // 1、i没有被R罩住，继续暴力往外扩
+            // 2、i被R罩住：
+            //    1、i‘在L...R中，i的回文半径一定等于i’回文半径，在大回文中关于C对称，不用验。
+            //    2、i‘不在L...R中：
+            //    a b c d e d c b a t s t a b c d e d c f
+            //        L   i’          c           i   R
+            //    即i‘的回文区域超过了L...R范围，回文半径为R - i
+            // 3、i’的回文左边界和L压线：
+            //    x a b c d a s t s a b c b a y
+            //      L   i‘      c       i   R
+            //    i对应的i‘的回文区域不需要验，继续验已知回文区域左边和右边是否相等
+            // 时间复杂度为O(N)
+            // 2 * C - i 为i’，下标变换
+            // Math.min(pArr[2 * C - i], R - i) => 不需要验的瓶颈
+            pArr[i] = R > i ? Math.min(pArr[2 * C - i], R - i) : 1;
+            // 跳过不需要验的区域，继续验需要验的区域
             while (i + pArr[i] < strArr.length && i - pArr[i] > -1) {
                 if (strArr[i + pArr[i]] == strArr[i - pArr[i]]) {
                     pArr[i]++;
@@ -28,11 +47,11 @@ public class Manacher {
                     break;
                 }
             }
-            // r扩的更远
+            // R扩的更远
             int temp = i + pArr[i];
-            if (temp > r) {
-                r = temp;
-                c = i;
+            if (temp > R) {
+                R = temp;
+                C = i;
             }
             max = Math.max(max, pArr[i]);
         }

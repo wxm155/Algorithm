@@ -27,6 +27,7 @@ public class BurstBalloons {
      */
 
     // 暴力递归
+    // 将L...R之间的问题依赖L左边和R右边的情况转换为某个气球最后被打爆的情况
     public static int maxCoins0(int[] nums) {
         // [3,2,1,3]
         // [1,3,2,1,3,1]
@@ -46,9 +47,9 @@ public class BurstBalloons {
         if (L == R) {
             return arr[L - 1] * arr[R] * arr[R + 1];
         }
-        // l最后被打爆
+        // L最后被打爆
         int max = process(arr, L + 1, R) + arr[L - 1] * arr[L] * arr[R + 1];
-        // r最后被打爆
+        // R最后被打爆
         max = Math.max(max, process(arr, L, R - 1) + arr[L - 1] * arr[R] * arr[R + 1]);
         for (int i = L + 1; i < R; i++) {
             // i位置气球最后打爆
@@ -58,5 +59,39 @@ public class BurstBalloons {
             max = Math.max(max, left + right + last);
         }
         return max;
+    }
+
+    // 动态规划解法
+    public static int maxCoins1(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        int len = nums.length;
+        int newLen = len + 2;
+        int[] arr = new int[newLen];
+        for (int i = 0; i < len; i++) {
+            arr[i + 1] = nums[i];
+        }
+        arr[0] = 1;
+        arr[len + 1] = 1;
+        int[][] dp = new int[newLen][newLen];
+        for (int i = 1; i <= len; i++) {
+            dp[i][i] = arr[i - 1] * arr[i] * arr[i + 1];
+        }
+        // 无法通过四边形不等式优化
+        for (int L = len; L >= 1; L--) {
+            for (int R = L + 1; R <= len; R++) {
+                int max = dp[L + 1][R] + arr[L - 1] * arr[L] * arr[R + 1];
+                max = Math.max(max, dp[L][R - 1] + arr[L - 1] * arr[R] * arr[R + 1]);
+                for (int i = L + 1; i < R; i++) {
+                    max = Math.max(max, arr[L - 1] * arr[i] * arr[R + 1] + dp[L][i - 1] + dp[i + 1][R]);
+                }
+                dp[L][R] = max;
+            }
+        }
+        return dp[1][len];
     }
 }

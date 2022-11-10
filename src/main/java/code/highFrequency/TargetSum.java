@@ -33,6 +33,8 @@ public class TargetSum {
      * -1000 <= target <= 1000
      *
      * 力扣：https://leetcode.cn/problems/target-sum/
+     *
+     * 转化为背包问题：{@link code.dynamicProgramming.Knapsack}
      */
 
     // 暴力递归

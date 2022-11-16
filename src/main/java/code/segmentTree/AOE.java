@@ -1,4 +1,6 @@
-package code.highFrequency;
+package code.segmentTree;
+
+import java.util.Arrays;
 
 /**
  * @author: wxm
@@ -49,7 +51,7 @@ public class AOE {
         // 就是如下的for循环，在求cover数组
         int r = 0;
         for (int i = 0; i < len; i++) {
-            if (r < len && x[i] - x[r] <= range) {
+            if (r < len && x[r] - x[i] <= range) {
                 r++;
             }
             cover[i] = r;
@@ -59,8 +61,8 @@ public class AOE {
         // 此时cover[i]，正好的告诉我们，技能影响多大范围。
         int res = 0;
         for (int i = 0; i < len; i++) {
-            int minHp = hp[i];
-            if (minHp > 0) {
+            if (hp[i] > 0) {
+                int minHp = hp[i];
                 for (int j = i; j < cover[i]; j++) {
                     hp[j] -= minHp;
                 }
@@ -68,5 +70,74 @@ public class AOE {
             }
         }
         return res;
+    }
+
+    // 线段树解法
+    public static int minAoe(int[] x, int[] hp, int range) {
+        int len = x.length;
+        int[] cover = new int[len];
+        int r = 0;
+        for (int i = 0; i < len; i++) {
+            while (r < len && x[r] - x[i] <= range) {
+                r++;
+            }
+            cover[i] = r;
+        }
+        SegmentTree st = new SegmentTree(hp);
+        st.build(1, len, 1);
+        int ans = 0;
+        for (int i = 1; i <= len; i++) {
+            int leftHp = st.query(1, len, i, i, 1);
+            if (leftHp > 0) {
+                ans += leftHp;
+                st.add(1, len, -leftHp, i, cover[i - 1], 1);
+            }
+        }
+        return ans;
+    }
+
+
+    // for test
+    public static int[] randomArray(int n, int valueMax) {
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) {
+            ans[i] = (int) (Math.random() * valueMax) + 1;
+        }
+        return ans;
+    }
+
+    // for test
+    public static int[] copyArray(int[] arr) {
+        int N = arr.length;
+        int[] ans = new int[N];
+        for (int i = 0; i < N; i++) {
+            ans[i] = arr[i];
+        }
+        return ans;
+    }
+
+    // for test
+    public static void main(String[] args) {
+        int N = 50;
+        int X = 500;
+        int H = 60;
+        int R = 10;
+        int testTime = 500000;
+        System.out.println("测试开始");
+        for (int i = 0; i < testTime; i++) {
+            int len = (int) (Math.random() * N) + 1;
+            int[] x2 = randomArray(len, X);
+            Arrays.sort(x2);
+            int[] hp2 = randomArray(len, H);
+            int[] x3 = copyArray(x2);
+            int[] hp3 = copyArray(hp2);
+            int range = (int) (Math.random() * R) + 1;
+            int ans2 = minAoe2(x2, hp2, range);
+            int ans3 = minAoe(x3, hp3, range);
+            if (ans2 != ans3) {
+                System.out.println("fuck....");
+            }
+        }
+        System.out.println("测试结束");
     }
 }

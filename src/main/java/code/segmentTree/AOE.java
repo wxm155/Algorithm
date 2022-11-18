@@ -87,10 +87,10 @@ public class AOE {
         st.build(1, len, 1);
         int ans = 0;
         for (int i = 1; i <= len; i++) {
-            int leftHp = st.query(1, len, i, i, 1);
+            int leftHp = st.query(i, i, 1, len, 1);
             if (leftHp > 0) {
                 ans += leftHp;
-                st.add(1, len, -leftHp, i, cover[i - 1], 1);
+                st.add(i, cover[i - 1],  -leftHp,1, len, 1);
             }
         }
         return ans;

@@ -28,6 +28,7 @@ public class SegmentTree {
     private int[] change;
 
     // update[]为更新慵懒标记
+    // 必须有，因为不确定chang[root] = 0 更新为0的还是原始值
     private boolean[] update;
 
     public SegmentTree(int[] origin) {
@@ -51,20 +52,20 @@ public class SegmentTree {
      * 初始化，填充sum[]
      * @param l 范围左边界
      * @param r 范围有边界
-     * @param root 根节点
+     * @param rootIndex 根节点
      */
-    public void build(int l, int r, int root) {
+    public void build(int l, int r, int rootIndex) {
         if (l == r) {
-            sum[root] = arr[l];
+            sum[rootIndex] = arr[l];
             return;
         }
         int mid = (l + r) >> 1;
         // 构建左子节点
-        build(l, mid, root << 1);
+        build(l, mid, rootIndex << 1);
         // 构建右子节点
-        build(mid + 1, r, root << 1 | 1);
+        build(mid + 1, r, rootIndex << 1 | 1);
         // 合并当前节点
-        pushUp(root);
+        pushUp(rootIndex);
     }
 
     /**
@@ -74,30 +75,30 @@ public class SegmentTree {
      * @param value 更新值
      * @param l     线段树的范围左边界
      * @param r     线段树的范围右边界
-     * @param root  根节点
+     * @param rt    根节点下标
      */
-    public void update(int start, int end, int value, int l, int r, int root) {
-        // 任务全包含，懒住
+    public void update(int start, int end, int value, int l, int r, int rt) {
+        // 任务把范围全包含，懒住
         if (start <= l && r <= end) {
-            update[root] = true;
-            change[root] = value;
-            sum[root] = value * (r - l + 1);
-            lazy[root] = 0;
+            update[rt] = true;
+            change[rt] = value;
+            sum[rt] = value * (r - l + 1);
+            lazy[rt] = 0;
             return;
         }
         int mid = (l + r) >> 1;
         // 无法懒住，往下发
-        pushDown(root, mid - l + 1, r - mid);
+        pushDown(rt, mid - l + 1, r - mid);
         // 左边小于等于中点位置，继续更新
         if (start <= mid) {
-            update(start, end, value, l, mid, root << 1);
+            update(start, end, value, l, mid, rt << 1);
         }
-        // 左边大于重点位置，继续更新
+        // 左边大于中点位置，继续更新
         if (end > mid) {
-            update(start, end, value, mid + 1, r, root << 1 | 1);
+            update(start, end, value, mid + 1, r, rt << 1 | 1);
         }
         // 合并当前节点
-        pushUp(root);
+        pushUp(rt);
     }
 
     /**
@@ -107,26 +108,26 @@ public class SegmentTree {
      * @param value 更新值
      * @param l     线段树的范围左边界
      * @param r     线段树的范围有边界
-     * @param root  根节点
+     * @param rt    根节点下标
      */
-    public void add(int start, int end, int value, int l, int r, int root) {
+    public void add(int start, int end, int value, int l, int r, int rt) {
         // 任务把此时的范围全包含
         if (start <= l && r <= end) {
-            sum[root] += value * (r - l + 1);
-            lazy[root] += value;
+            sum[rt] += value * (r - l + 1);
+            lazy[rt] += value;
             return;
         }
         int mid = (l + r) >> 1;
         // 没有全包含，往下发
-        pushDown(root, mid - l + 1, r - mid);
+        pushDown(rt, mid - l + 1, r - mid);
         if (start <= mid) {
-            add(start, end, value, l, mid, root << 1);
+            add(start, end, value, l, mid, rt << 1);
         }
         if (end > mid) {
-            add(start, end, value, mid + 1, r, root << 1 | 1);
+            add(start, end, value, mid + 1, r, rt << 1 | 1);
         }
         // 合并当前节点
-        pushUp(root);
+        pushUp(rt);
     }
 
     /**
@@ -135,21 +136,21 @@ public class SegmentTree {
      * @param end   查询范围右边界
      * @param l     线段树的范围左边界
      * @param r     线段树的范围右边界
-     * @param root  根节点
+     * @param rt    根节点下标
      * @return      结果
      */
-    public int query(int start, int end, int l, int r, int root) {
+    public int query(int start, int end, int l, int r, int rt) {
         if (start <= l && r <= end) {
-            return sum[root];
+            return sum[rt];
         }
         int mid = (l + r) >> 1;
-        pushDown(root, mid - l + 1, r - mid);
+        pushDown(rt, mid - l + 1, r - mid);
         int ans = 0;
         if (start <= mid) {
-            ans += query(start, end, l, mid, root << 1);
+            ans += query(start, end, l, mid, rt << 1);
         }
         if (end > mid) {
-            ans += query(start, end, mid + 1, r, root << 1 | 1);
+            ans += query(start, end, mid + 1, r, rt << 1 | 1);
         }
         return ans;
     }
@@ -161,28 +162,29 @@ public class SegmentTree {
 
     /**
      * 所有懒增加，和懒更新，从父范围，发给左右两个子范围
-     * @param root 根节点
+     * @param rt   根节点下标
      * @param ln   左子树节点个数
      * @param rn   右子树节点个数
      */
-    private void pushDown(int root, int ln, int rn) {
-        if (update[root]) {
-            update[root << 1] = true;
-            update[root << 1 | 1] = true;
-            change[root << 1] = change[root];
-            change[root << 1 | 1] = change[root];
-            lazy[root << 1] = 0;
-            lazy[root << 1 | 1] = 0;
-            sum[root << 1] = change[root] * ln;
-            sum[root << 1 | 1] = change[root] * rn;
-            update[root] = false;
+    private void pushDown(int rt, int ln, int rn) {
+        // 必须先进行更新，再下发任务，因为更新会将lazy[rt]清零
+        if (update[rt]) {
+            update[rt << 1] = true;
+            update[rt << 1 | 1] = true;
+            change[rt << 1] = change[rt];
+            change[rt << 1 | 1] = change[rt];
+            lazy[rt << 1] = 0;
+            lazy[rt << 1 | 1] = 0;
+            sum[rt << 1] = change[rt] * ln;
+            sum[rt << 1 | 1] = change[rt] * rn;
+            update[rt] = false;
         }
-        if (lazy[root] != 0) {
-            lazy[root << 1] += lazy[root];
-            sum[root << 1] += lazy[root] * ln;
-            lazy[root << 1 | 1] += lazy[root];
-            sum[root << 1 | 1] += lazy[root] * rn;
-            lazy[root] = 0;
+        if (lazy[rt] != 0) {
+            lazy[rt << 1] += lazy[rt];
+            sum[rt << 1] += lazy[rt] * ln;
+            lazy[rt << 1 | 1] += lazy[rt];
+            sum[rt << 1 | 1] += lazy[rt] * rn;
+            lazy[rt] = 0;
         }
     }
 

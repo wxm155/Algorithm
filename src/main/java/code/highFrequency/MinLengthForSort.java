@@ -53,6 +53,7 @@ public class MinLengthForSort {
             }
             min = Math.min(min, nums[i]);
         }
+        // 0表示right和left值未发生变化，nums原本就是递增数组
         return Math.max(0, right - left + 1);
     }
 }

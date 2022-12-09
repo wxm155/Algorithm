@@ -1,5 +1,7 @@
 package code.highFrequency;
 
+import java.util.Arrays;
+
 /**
  * @author: wxm
  * @created: 2022/12/02
@@ -12,8 +14,28 @@ public class BoatsToSavePeople {
      * 并且用最好的分配方法让船尽量少，返回最少的船数
      */
 
+    /**
+     * 首尾双指针
+     * @param people 人体重数组
+     * @param limit 船限制重量
+     * @return  最少的船数
+     */
     public int numRescueBoats(int[] people, int limit) {
-
-        return 0;
+        Arrays.sort(people);
+        int ans = 0;
+        int l = 0, r = people.length - 1;
+        int sum = 0;
+        while (l <= r) {
+            sum = l == r ? people[l] : people[l] + people[r];
+            // 大于limit就自己一个人坐一船，小于就两个人坐一船
+            if (sum > limit) {
+                r--;
+            } else {
+                l++;
+                r--;
+            }
+            ans++;
+        }
+        return ans;
     }
 }

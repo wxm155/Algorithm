@@ -14,6 +14,7 @@ public class SelectSort {
      * 0 ~ N-1  找到最小值，在哪，放到0位置上
      * 1 ~ n-1  找到最小值，在哪，放到1位置上
      * 2 ~ n-1  找到最小值，在哪，放到2位置上
+     * 时间复杂度：O(N^2)
      * @param arr
      */
     public static void selectSort(int[] arr) {

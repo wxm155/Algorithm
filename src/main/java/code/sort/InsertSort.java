@@ -10,6 +10,7 @@ import java.util.Arrays;
 public class InsertSort {
 
     /**
+     * 插入排序：遍历数组依次向前移动找到对应大小的位置插入 时间复杂度：O(N^2)
      * 插入排序写法一
      * @param arr
      */

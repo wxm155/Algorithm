@@ -58,20 +58,6 @@ public class CandyProblem {
         return res;
     }
 
-    public static int candy1(int[] ratings) {
-        if (ratings == null || ratings.length == 0) {
-            return 0;
-        }
-        int len = ratings.length;
-        for (int i = 1; i < len; i++) {
-            if (ratings[i] > ratings[i - 1]){
-
-            }
-
-        }
-        return ;
-    }
-
     public static void main(String[] args) {
         int[] arr = {1,0,2};
         System.out.println(candy(arr));

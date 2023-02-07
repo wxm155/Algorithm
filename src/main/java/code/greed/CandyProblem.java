@@ -1,4 +1,4 @@
-package code.highFrequency;
+package code.greed;
 
 /**
  * @author: wxm

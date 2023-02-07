@@ -58,8 +58,43 @@ public class CandyProblem {
         return res;
     }
 
-    public static void main(String[] args) {
-        int[] arr = {1,0,2};
-        System.out.println(candy(arr));
+    /**
+     * 如果当前同学比上一个同学评分高，说明我们就在最近的递增序列中，直接分配给该同学 pre+1个糖果即可。
+     * 否则我们就在一个递减序列中，我们直接分配给当前同学一个糖果，并把该同学所在的递减序列中所有的同学都再多分配一个糖果，以保证糖果数量还是满足条件。
+     * 我们无需显式地额外分配糖果，只需要记录当前的递减序列长度，即可知道需要额外分配的糖果数量。
+     * 同时注意当当前的递减序列长度和上一个递增序列等长时，需要把最近的递增序列的最后一个同学也并进递减序列中。
+     * 时间复杂度为O(N),额外空间复杂度为O(1)
+     * @param ratings 输入数组
+     * @return 返回糖果数
+     */
+    public static int candy1(int[] ratings) {
+        if (ratings == null || ratings.length == 0) {
+            return 0;
+        }
+        int len = ratings.length;
+        // pre 前一个同学得分糖果数
+        // inc 升序长度
+        // dec 降序长度
+        // res 结果
+        int pre = 1, inc = 1, dec = 0, res = 1;
+        for (int i = 1; i < len; i++) {
+            // 升序
+            if (ratings[i] >= ratings[i - 1]) {
+                dec = 0;
+                pre = ratings[i] == ratings[i - 1] ? 1 : pre + 1;
+                res += pre;
+                inc = pre;
+                // 降序
+            } else {
+                dec++;
+                // 最近的升序长度和当前降序长度一样，将升序最后一个并入降序
+                if (dec == inc) {
+                    dec++;
+                }
+                res += dec;
+                pre = 1;
+            }
+        }
+        return res;
     }
 }

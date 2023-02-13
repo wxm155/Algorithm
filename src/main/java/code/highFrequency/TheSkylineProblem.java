@@ -52,6 +52,7 @@ public class TheSkylineProblem {
         TreeMap<Integer, Integer> heightTimes = new TreeMap<>();
         TreeMap<Integer, Integer> xHeight = new TreeMap<>();
         for (int i = 0; i < nodeArr.length; i++) {
+            // 获取x轴每个位置的最高点
             if (nodeArr[i].isAdd) {
                 if (!heightTimes.containsKey(nodeArr[i].height)) {
                     heightTimes.put(nodeArr[i].height, 1);

@@ -21,6 +21,9 @@ public class LeftRightSameTreeNumber {
     }
 
     public static boolean same(Node n1, Node n2) {
+        // true ^ true = false
+        // false ^ false = false
+        // true ^ false = true;
         if (n1 == null ^ n2 == null) {
             return false;
         }

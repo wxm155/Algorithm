@@ -55,7 +55,12 @@ public class DeleteMinCost {
         process(arr, index + 1, path + arr[index], list);
     }
 
-
+    /**
+     * s1的所有子串只通过删除的方式得到s2，
+     * @param s1
+     * @param s2
+     * @return 至少要删除的字符，变不成返回系统最大
+     */
     public static int minCost2(String s1, String s2) {
         char[] arr1 = s1.toCharArray();
         char[] arr2 = s2.toCharArray();
@@ -73,6 +78,7 @@ public class DeleteMinCost {
         }
         for (int i = 1; i <= len1; i++) {
             // 右上半部分无效
+            // Math.min(i, len2)可能不是正对角线，整个表为长方形
             for (int j = 1; j <= Math.min(i, len2); j++) {
                 if (dp[i - 1][j] != Integer.MAX_VALUE) {
                     dp[i][j] = dp[i - 1][j] + 1;
@@ -106,30 +112,6 @@ public class DeleteMinCost {
             str[i] = (char) ('a' + (int) (Math.random() * v));
         }
         return String.valueOf(str);
-    }
-
-    public static void main(String[] args) {
-        int str1Len = 20;
-        int str2Len = 10;
-        int v = 5;
-        int testTime = 100;
-        boolean pass = true;
-        System.out.println("test begin");
-        for (int i = 0; i < testTime; i++) {
-            String str1 = generateRandomString(str1Len, v);
-            String str2 = generateRandomString(str2Len, v);
-            int ans1 = minCost1(str1, str2);
-            int ans2 = minCost2(str1, str2);
-            if (ans1 != ans2) {
-                pass = false;
-                System.out.println(str1);
-                System.out.println(str2);
-                System.out.println(ans1);
-                System.out.println(ans2);
-                break;
-            }
-        }
-        System.out.println("test pass : " + pass);
     }
 
 }

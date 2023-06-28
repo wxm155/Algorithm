@@ -87,7 +87,7 @@ public class MaxXOR {
         }
 
         /**
-         * 给定一个数字，在构建好的前缀树中num和谁异或和最大，返回最大结果
+         * 给定一个数字，在构建好的前缀树中num和谁异或和最大，返回异或最大结果
          *
          * @param num
          * @return
@@ -96,8 +96,9 @@ public class MaxXOR {
             Node node = root;
             int ans = 0;
             for (int i = 31; i >= 0; i--) {
+                // path 非0即1
                 int path = ((num >> i) & 1);
-                // 期望遇到的结果，31位为符号位不变   path ^ 1 => 取反
+                // 期望遇到的结果，31位为符号位期望遇到与自己相同的，其它位期望遇到与自己相反的   path ^ 1 => 取反
                 int best = i == 31 ? path : (path ^ 1);
                 // 实际遇到的结果，可能期望的结果不存在
                 best = node.next[best] != null ? best : (best ^ 1);

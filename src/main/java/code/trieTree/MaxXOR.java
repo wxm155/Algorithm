@@ -50,6 +50,7 @@ public class MaxXOR {
         }
         int max = Integer.MIN_VALUE;
         TrieTreeNum treeNum = new TrieTreeNum();
+        // 表示一个数也没有的时候异或和为0
         treeNum.insert(0);
         // 0..i 整体异或和
         int xor = 0;

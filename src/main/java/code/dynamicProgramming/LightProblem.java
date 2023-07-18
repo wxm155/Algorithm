@@ -257,10 +257,8 @@ public class LightProblem {
             res++;
             preStatus = curStatus ^ 1;
             endStatus ^= 1;
-            curStatus = endStatus;
         } else {
             preStatus = curStatus;
-            curStatus = endStatus;
         }
         return (endStatus != firstStatus || endStatus != preStatus) ? Integer.MAX_VALUE : (res + (endStatus ^ 1));
     }
@@ -276,7 +274,7 @@ public class LightProblem {
 
     public static void main(String[] args) {
         System.out.println("begin...");
-        int testTime = 200000;
+        int testTime = 2000000;
         int lenMax = 12;
         for (int i = 0; i < testTime; i++) {
             int len = (int) (Math.random() * lenMax);

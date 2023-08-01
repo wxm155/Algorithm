@@ -89,36 +89,33 @@ public class BooleanEvaluation {
      * @return
      */
     public static int countEval2(String s, int result) {
-        if (s == null || s.length() == 0) {
+        if (s == null || s.equals("")) {
             return 0;
         }
-        int len = s.length();
-        int[][][] dp = new int[len][len][2];
-        for (int i = 0; i < len; i += 2) {
-            dp[i][i][0] = s.charAt(i) == '1' ? 1 : 0;
-            dp[i][i][1] = s.charAt(i) == '0' ? 1 : 0;
-            for (int j = i + 2; j < len; j += 2) {
-                for (int k = i + 1; k < j; k += 2) {
-                    switch (s.charAt(k)) {
-                        case '&':
-                            dp[i][j][0] = dp[i][k - 1][0] * dp[k + 1][j][0];
-                            dp[i][j][1] = dp[i][k - 1][0] * dp[k + 1][j][1] +
-                                    dp[i][k - 1][1] * dp[k + 1][j][0] + dp[i][k - 1][1] * dp[k + 1][j][1];
-                            break;
-                        case '|':
-                            dp[i][j][0] = dp[i][k - 1][0] * dp[k + 1][j][0] +
-                                    dp[i][k - 1][1] * dp[k + 1][j][0] + dp[i][k - 1][0] * dp[k + 1][j][1];
-                            dp[i][j][1] = dp[i][k - 1][1] * dp[k + 1][j][1];
-                            break;
-                        case '^':
-                            dp[i][j][0] = dp[i][k - 1][0] * dp[k + 1][j][1] + dp[i][k - 1][1] * dp[k + 1][j][0];
-                            dp[i][j][1] = dp[i][k - 1][0] * dp[k + 1][j][0] + dp[i][k - 1][1] * dp[k + 1][j][1];
-                            break;
+        char[] exp = s.toCharArray();
+        int N = exp.length;
+        int[][][] dp = new int[2][N][N];
+        dp[0][0][0] = exp[0] == '0' ? 1 : 0;
+        dp[1][0][0] = dp[0][0][0] ^ 1;
+        for (int i = 2; i < exp.length; i += 2) {
+            dp[0][i][i] = exp[i] == '1' ? 0 : 1;
+            dp[1][i][i] = exp[i] == '0' ? 0 : 1;
+            for (int j = i - 2; j >= 0; j -= 2) {
+                for (int k = j; k < i; k += 2) {
+                    if (exp[k + 1] == '&') {
+                        dp[1][j][i] += dp[1][j][k] * dp[1][k + 2][i];
+                        dp[0][j][i] += (dp[0][j][k] + dp[1][j][k]) * dp[0][k + 2][i] + dp[0][j][k] * dp[1][k + 2][i];
+                    } else if (exp[k + 1] == '|') {
+                        dp[1][j][i] += (dp[0][j][k] + dp[1][j][k]) * dp[1][k + 2][i] + dp[1][j][k] * dp[0][k + 2][i];
+                        dp[0][j][i] += dp[0][j][k] * dp[0][k + 2][i];
+                    } else {
+                        dp[1][j][i] += dp[0][j][k] * dp[1][k + 2][i] + dp[1][j][k] * dp[0][k + 2][i];
+                        dp[0][j][i] += dp[0][j][k] * dp[0][k + 2][i] + dp[1][j][k] * dp[1][k + 2][i];
                     }
                 }
             }
         }
-        return dp[0][len - 1][result ^ 1];
+        return dp[result][0][N - 1];
     }
 
     public static void main(String[] args) {

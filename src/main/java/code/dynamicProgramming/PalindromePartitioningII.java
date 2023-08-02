@@ -174,6 +174,7 @@ public class PalindromePartitioningII {
     }
 
     // str[i...j]上划分的回文串放在ans中
+    // path => 记录每条分支分割的结果
     public static void process(String str, int i, int j, boolean[][] checkMap, int[] dp, List<String> path, List<List<String>> ans) {
         if (j == str.length()) {
             if (checkMap[i][j - 1] && dp[i] == dp[j] + 1) {

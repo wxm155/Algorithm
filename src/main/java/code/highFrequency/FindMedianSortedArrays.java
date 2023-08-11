@@ -36,7 +36,29 @@ public class FindMedianSortedArrays {
      */
 
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        return 0.0;
+        int size = nums1.length + nums2.length;
+        boolean even = (size & 1) == 0;
+        if (nums1.length != 0 && nums2.length != 0) {
+            if (even) {
+                return (double) (findKthNum(nums1, nums2, size / 2) + findKthNum(nums1, nums2, size / 2 + 1)) / 2;
+            } else {
+                return findKthNum(nums1, nums2, size / 2 + 1);
+            }
+        } else if (nums1.length != 0) {
+            if (even) {
+                return (double) (nums1[(size - 1) / 2] + nums1[size / 2]) / 2;
+            } else {
+                return nums1[size / 2];
+            }
+        } else if (nums2.length != 0) {
+            if (even) {
+                return (double) (nums2[(size - 1) / 2] + nums2[size / 2]) / 2;
+            } else {
+                return nums2[size / 2];
+            }
+        } else {
+            return 0.0;
+        }
     }
 
     // 查找两个正序数组的第K小的数
@@ -45,22 +67,25 @@ public class FindMedianSortedArrays {
         int[] shorts = arr1.length > arr2.length ? arr2 : arr1;
         int l = longs.length, s = shorts.length;
         // 1、k <= s
+        // 第K小的数一定在longs[0...kth - 1]或shorts[0...kth - 1]中
         if (kth <= s) {
             return getUpMedian(shorts, 0, kth - 1, longs, 0, kth - 1);
         }
         // 2、k > l
         if (kth > l) {
-            // 判断一下，剔除多余数字让数组等长
+            // shorts[kth - l - 1] >= longs[l - 1] 即 shorts[kth - l - 1]为第k小的数
             if (shorts[kth - l - 1] >= longs[l - 1]) {
                 return shorts[kth - l - 1];
             }
-            if (longs[kth - l - 1] >= shorts[s - 1]) {
-                return longs[kth - l - 1];
+            // longs[kth - l - 1] >= shorts[s - 1] 即 longs[kth - l - 1]为第k小的数
+            if (longs[kth - s - 1] >= shorts[s - 1]) {
+                return longs[kth - s - 1];
             }
+            // s l k
+            // 5 8 9
             return getUpMedian(shorts, kth - l, s - 1, longs, kth - s, l - 1);
         }
         // 3、s < k <= l
-        // 判断一下，剔除多余数字让数组等长
         if (longs[kth - s - 1] >= shorts[s - 1]) {
             return longs[kth - s - 1];
         }

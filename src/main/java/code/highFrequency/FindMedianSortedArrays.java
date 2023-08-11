@@ -35,7 +35,7 @@ public class FindMedianSortedArrays {
      * 进阶：在两个都有序的数组中找整体第K小的数，可以做到O(log(Min(M,N)))
      */
 
-    // 合并数组解法
+    // 合并数组解法 O(M + N)
     public double findMedianSortedArrays1(int[] nums1, int[] nums2) {
         int[] temp = new int[nums1.length + nums2.length];
         int index = 0, p1 = 0, p2 = 0;
@@ -55,7 +55,7 @@ public class FindMedianSortedArrays {
                 : (double) temp[((size - 1) >> 1)];
     }
 
-    // 二分解法
+    // 二分解法 O(log(min(M,N))
     public double findMedianSortedArrays2(int[] nums1, int[] nums2) {
         int size = nums1.length + nums2.length;
         boolean even = (size & 1) == 0;

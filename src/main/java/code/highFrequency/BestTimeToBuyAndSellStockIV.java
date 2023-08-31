@@ -45,32 +45,43 @@ public class BestTimeToBuyAndSellStockIV {
         // 第一行 dp[0][0...k]在prices[0]完成0...k次交易利润为0
         // 第一列 dp[0...prices.length - 1][0] 在prices[0...prices.length - 1]完成0次交易利润为0
         for (int j = 1; j <= k; j++) {
+            // 在dp[1][j]
             // 当前不卖出
             int p1 = dp[0][j];
             // 当前卖出
-            // dp[5][3]的值为：在prices[8]位置卖出，枚举每一次买入时机，取最大值
-            // dp[5][2] + prices[5] - prices[5]
-            // dp[4][2] + prices[5] - prices[4]
-            // dp[3][2] + prices[5] - prices[3]
-            // dp[2][2] + prices[5] - prices[2]
-            // dp[1][2] + prices[5] - prices[1]
-            // dp[0][2] + prices[5] - prices[0]
-
-            // dp[6][3]的值为
-            // dp[6][2] + prices[6] - prices[6]
-            // dp[5][2] + prices[6] - prices[5]
-            // dp[4][2] + prices[6] - prices[4]
-            // dp[3][2] + prices[6] - prices[3]
-            // dp[2][2] + prices[6] - prices[2]
-            // dp[1][2] + prices[6] - prices[1]
-            // dp[0][2] + prices[6] - prices[0]
-            int p2 = Math.max(dp[1][j - 1] - prices[1], dp[0][j - 1] - prices[0]);
-            dp[1][j] = Math.max(p1, p2 + prices[1]);
+            // int p2 = dp[1][j - 1] + prices[1] - prices[1];
+            // int p3 = dp[0][j - 1] + prices[1] - prices[0];
+            // dp[1][j] = Math.max(p1, Math.max(p2, p3));
+            int best = Math.max(dp[1][j - 1] - prices[1], dp[0][j - 1] - prices[0]);
+            dp[1][j] = Math.max(p1, best + prices[1]);
             for (int i = 2; i < len; i++) {
+                // dp[i][j]
+                // 当前卖出
+                // dp[5][3]的值为：在prices[8]位置卖出，枚举每一次买入时机，取最大值
+                // dp[5][2] + prices[5] - prices[5]
+                // dp[4][2] + prices[5] - prices[4]
+                // dp[3][2] + prices[5] - prices[3]
+                // dp[2][2] + prices[5] - prices[2]
+                // dp[1][2] + prices[5] - prices[1]
+                // dp[0][2] + prices[5] - prices[0]
+                // dp[6][3]的值为：
+                // dp[6][2] + prices[6] - prices[6]
+                // dp[5][2] + prices[6] - prices[5]
+                // dp[4][2] + prices[6] - prices[4]
+                // dp[3][2] + prices[6] - prices[3]
+                // dp[2][2] + prices[6] - prices[2]
+                // dp[1][2] + prices[6] - prices[1]
+                // dp[0][2] + prices[6] - prices[0]
+                // => dp[6][3] = Math.max(dp[5][3] - prices[5],dp[6][2])
+                // 当前不卖出
                 p1 = dp[i - 1][j];
-                int p3 = dp[i][j - 1] - prices[i];
-                p2 = Math.max(p3, p2);
-                dp[i][j] = Math.max(p1, p2 + prices[i]);
+                // 当前卖出的较上一步多的值
+                // 例：dp[6][3]减去prices[6]较dp[5][3]减去prices[5]多出的dp[6][2] - prices[6]
+                int p2 = dp[i][j - 1] - prices[i];
+                // 多出的部分与之前最好的卖出收益比较
+                best = Math.max(p2, best);
+                // 最后将prices[i]加上比较最大收益
+                dp[i][j] = Math.max(p1, best + prices[i]);
             }
         }
         return dp[len - 1][k];

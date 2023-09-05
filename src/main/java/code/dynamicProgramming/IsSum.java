@@ -16,7 +16,7 @@ public class IsSum {
      */
 
     // 问题一：暴力递归解法
-    public boolean sum1(int[] arr, int k) {
+    public static boolean sum1(int[] arr, int k) {
         if (k == 0) {
             return true;
         }
@@ -41,7 +41,7 @@ public class IsSum {
     }
 
     // 问题一：动态规划解法
-    public boolean sum2(int[] arr, int k) {
+    public static boolean sum2(int[] arr, int k) {
         if (k == 0) {
             return true;
         }
@@ -75,7 +75,7 @@ public class IsSum {
 
     // arr的值很大，动态规划表的列会很多，也会很慢
     // 分治的思想，arr.length不大，哪怕数值很大，分治会比动态规划快
-    public boolean sum3(int[] arr, int k) {
+    public static boolean sum3(int[] arr, int k) {
         if (k == 0) {
             return true;
         }
@@ -111,5 +111,43 @@ public class IsSum {
             process2(arr, start + 1, end, pre, set);
             process2(arr, start + 1, end, pre + arr[start], set);
         }
+    }
+
+    public static int[] randomArray(int len, int max) {
+        int[] arr = new int[len];
+        for (int i = 0; i < len; i++) {
+            arr[i] = (int) (Math.random() * ((max << 1) + 1)) - max;
+        }
+        return arr;
+    }
+
+    // 对数器验证所有方法
+    public static void main(String[] args) {
+        int N = 20;
+        int M = 100;
+        int testTime = 100000;
+        System.out.println("测试开始");
+        for (int i = 0; i < testTime; i++) {
+            int size = (int) (Math.random() * (N + 1));
+            int[] arr = randomArray(size, M);
+            int sum = (int) (Math.random() * ((M << 1) + 1)) - M;
+            boolean ans1 = sum1(arr, sum);
+            boolean ans2 = sum2(arr, sum);
+            boolean ans3 = sum3(arr, sum);
+            if (ans1 ^ ans2 ||  ans1 ^ ans3) {
+                System.out.println("出错了！");
+                System.out.print("arr : ");
+                for (int num : arr) {
+                    System.out.print(num + " ");
+                }
+                System.out.println();
+                System.out.println("sum : " + sum);
+                System.out.println("方法一答案 : " + ans1);
+                System.out.println("方法二答案 : " + ans2);
+                System.out.println("方法三答案 : " + ans3);
+                break;
+            }
+        }
+        System.out.println("测试结束");
     }
 }

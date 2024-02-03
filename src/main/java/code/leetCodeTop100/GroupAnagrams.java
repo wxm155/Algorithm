@@ -28,6 +28,8 @@ public class GroupAnagrams {
      * 1 <= strs.length <= 10^4
      * 0 <= strs[i].length <= 100
      * strs[i] 仅包含小写字母
+     *
+     * 力扣：https://leetcode.cn/problems/group-anagrams/?envType=study-plan-v2&envId=top-100-liked
      */
 
     public List<List<String>> groupAnagrams(String[] strs) {

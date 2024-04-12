@@ -65,4 +65,40 @@ public class CombinationSum {
         }
     }
     
+    // 回溯 + 剪枝
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        
+        process2(candidates, target, 0, 0, res, temp);
+        return res;
+    }
+    
+    public void process2(int[] candidates, int target, int cur, int begin, List<List<Integer>> res, List<Integer> temp) {
+        if (cur == target) {
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        // 剪枝
+        if (cur > target) {
+            return;
+        }
+        
+        // 每次从begin开始
+        // 使用过的数字不能再使用，避免生成重复解
+        // 例：[2,3,6,7]，target = 7
+        // 深度优先遍历第一次出现2 2 3时，回溯到第一个2时，要将使用过的2排除掉，
+        // 因为可以重复使用，最终都会生成2 3 2，出现重复解
+        for (int i = begin; i < candidates.length; i++) {
+            
+            temp.add(candidates[i]);
+            cur += candidates[i];
+            
+            process2(candidates, target, cur, i, res, temp);
+            
+            cur -= candidates[i];
+            temp.remove(temp.size() - 1);
+        }
+    }
 }
